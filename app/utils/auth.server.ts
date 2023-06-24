@@ -1,6 +1,7 @@
 import { json } from "@remix-run/node";
+import bcrypt from "bcryptjs";
 import { prisma } from "./prisma.server";
-import type { RegisterForm } from "./types.server";
+import type { LoginForm, RegisterForm } from "./types.server";
 import { createUser } from "./user.server";
 
 export async function register(user: RegisterForm) {
@@ -24,4 +25,15 @@ export async function register(user: RegisterForm) {
       { status: 400 }
     );
   }
+}
+
+export async function login({ email, password }: LoginForm) {
+  const user = await prisma.user.findUnique({
+    where: { email },
+  });
+
+  if (!user || !(await bcrypt.compare(password, user.password)))
+    return json({ error: `Incorrect login` }, { status: 400 });
+
+  return { id: user.id, email };
 }
