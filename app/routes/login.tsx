@@ -7,6 +7,8 @@ export default function Login() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
+    firstName: "",
+    lastName: "",
   });
 
   // Updates the form data when an input changes
@@ -49,6 +51,22 @@ export default function Login() {
             value={formData.password}
             onChange={(e) => handleInputChange(e, "password")}
           />
+          {action === "register" && (
+            <>
+              <FormField
+                htmlFor="firstName"
+                label="First Name"
+                onChange={(e) => handleInputChange(e, "firstName")}
+                value={formData.firstName}
+              />
+              <FormField
+                htmlFor="lastName"
+                label="Last Name"
+                onChange={(e) => handleInputChange(e, "lastName")}
+                value={formData.lastName}
+              />
+            </>
+          )}
           <div className="w-full text-center">
             <button
               type="submit"
