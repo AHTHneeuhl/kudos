@@ -1,11 +1,13 @@
-import { type LoaderFunction } from "@remix-run/node";
+import { json, type LoaderFunction } from "@remix-run/node";
 import { Layout } from "~/components/layout";
 import { UserPanel } from "~/components/userPanel";
 import { requireUserId } from "~/utils/auth.server";
+import { getOtherUsers } from "~/utils/user.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
-  await requireUserId(request);
-  return null; // <- A loader always has to return some value, even if that is null
+  const userId = await requireUserId(request);
+  const users = await getOtherUsers(userId);
+  return json({ users });
 };
 
 export default function Home() {
