@@ -1,4 +1,5 @@
 import { json, type LoaderFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import { Layout } from "~/components/layout";
 import { UserPanel } from "~/components/userPanel";
 import { requireUserId } from "~/utils/auth.server";
@@ -11,10 +12,12 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function Home() {
+  const { users } = useLoaderData();
+
   return (
     <Layout>
       <div className="h-full flex">
-        <UserPanel />
+        <UserPanel users={users} />
       </div>
     </Layout>
   );
