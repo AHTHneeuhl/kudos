@@ -1,7 +1,7 @@
 import { createPortal } from "react-dom";
 import { useState, useEffect } from "react";
 
-interface props {
+interface TProps {
   children: React.ReactNode;
   wrapperId: string;
 }
@@ -13,7 +13,7 @@ const createWrapper = (wrapperId: string) => {
   return wrapper;
 };
 
-export const Portal: React.FC<props> = ({ children, wrapperId }) => {
+export const Portal: React.FC<TProps> = ({ children, wrapperId }) => {
   const [wrapper, setWrapper] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
