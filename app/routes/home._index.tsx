@@ -3,10 +3,11 @@ import { json, type LoaderFunction } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import { Kudo } from "~/components/kudo";
 import { Layout } from "~/components/layout";
+import { RecentBar } from "~/components/recentBar";
 import { SearchBar } from "~/components/searchBar";
 import { UserPanel } from "~/components/userPanel";
 import { requireUserId } from "~/utils/auth.server";
-import { getFilteredKudos } from "~/utils/kudos.server";
+import { getFilteredKudos, getRecentKudos } from "~/utils/kudos.server";
 import { getOtherUsers } from "~/utils/user.server";
 
 interface KudoWithProfile extends IKudo {
@@ -62,12 +63,13 @@ export const loader: LoaderFunction = async ({ request }) => {
   }
 
   const kudos = await getFilteredKudos(userId, sortOptions, textFilter);
+  const recentKudos = await getRecentKudos();
 
-  return json({ users, kudos });
+  return json({ users, kudos, recentKudos });
 };
 
 export default function Home() {
-  const { users, kudos } = useLoaderData();
+  const { users, kudos, recentKudos } = useLoaderData();
 
   return (
     <Layout>
@@ -82,7 +84,7 @@ export default function Home() {
                 <Kudo key={kudo.id} kudo={kudo} profile={kudo.author.profile} />
               ))}
             </div>
-            {/* Recent Kudos Goes Here */}
+            <RecentBar kudos={recentKudos} />
           </div>
         </div>
       </div>
