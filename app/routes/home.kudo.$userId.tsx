@@ -2,6 +2,7 @@ import { type KudoStyle } from "@prisma/client";
 import { json, redirect, type LoaderFunction } from "@remix-run/node";
 import { useActionData, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
+import { Kudo } from "~/components/kudo";
 import { Modal } from "~/components/modal";
 import { SelectBox } from "~/components/selectBox";
 import { UserCircle } from "~/components/userCircle";
@@ -41,7 +42,7 @@ export default function KudoModal() {
     setFormData((data) => ({ ...data, [field]: e.target.value }));
   };
 
-  const { recipient } = useLoaderData();
+  const { recipient, user } = useLoaderData();
 
   const handleStyleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -97,7 +98,6 @@ export default function KudoModal() {
               placeholder={`Say something nice about ${recipient.profile.firstName}...`}
             />
             <div className="flex flex-col items-center md:flex-row md:justify-start gap-x-4">
-              {/* Select Boxes Go Here */}
               <SelectBox
                 options={colors}
                 name="backgroundColor"
@@ -131,7 +131,7 @@ export default function KudoModal() {
         <br />
         <p className="text-blue-600 font-semibold mb-2">Preview</p>
         <div className="flex flex-col items-center md:flex-row gap-x-24 gap-y-2 md:gap-y-0">
-          {/* The Preview Goes Here */}
+          <Kudo profile={user.profile} kudo={formData} />
           <div className="flex-1" />
           <button
             type="submit"
