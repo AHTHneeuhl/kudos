@@ -3,6 +3,7 @@ import { json, type LoaderFunction } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import { Kudo } from "~/components/kudo";
 import { Layout } from "~/components/layout";
+import { SearchBar } from "~/components/searchBar";
 import { UserPanel } from "~/components/userPanel";
 import { requireUserId } from "~/utils/auth.server";
 import { getFilteredKudos } from "~/utils/kudos.server";
@@ -31,7 +32,7 @@ export default function Home() {
       <div className="h-full flex">
         <UserPanel users={users} />
         <div className="flex-1 flex flex-col">
-          {/* Search Bar Goes Here */}
+          <SearchBar />
           <div className="flex-1 flex">
             <div className="w-full p-10 flex flex-col gap-y-4">
               {kudos.map((kudo: KudoWithProfile) => (
